@@ -2,14 +2,15 @@ package edu.upc.login;
 
 
 
-import java.util.List;
-
-import edu.upc.login.Entidades.Ranking;
+import edu.upc.login.Entidades.Inventario;
+import edu.upc.login.Entidades.LoginCredentials;
+import edu.upc.login.Entidades.RegisterCredentials;
 import edu.upc.login.Entidades.Token;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 public interface API {
 /*    @GET("tracks")
@@ -35,5 +36,8 @@ Call <RankingRespuesta> getRanking();
 
 @POST("auth/register")
     Call<Token> register(@Body RegisterCredentials registerCredentials);
+
+@POST("game/compra")
+    Call<Void> comprar(@Body Inventario inventario);
 
 }
