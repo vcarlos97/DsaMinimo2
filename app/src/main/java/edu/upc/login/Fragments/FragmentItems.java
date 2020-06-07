@@ -40,8 +40,6 @@ public class FragmentItems extends Fragment {
         listaItems = new ArrayList<Item>();
         //cargar la lista
         cargarLista();
-
-
         //mostrar datos
         mostrarDatos();
 

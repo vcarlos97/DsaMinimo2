@@ -93,7 +93,6 @@ public class DetalleItemFragment extends Fragment {
 
         //Llamamos a servicios que hemos definido en la API
         api = retrofit.create(API.class);
-
         comprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +103,9 @@ public class DetalleItemFragment extends Fragment {
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.code() == 400) Toast.makeText(getContext(), "No tienes suficientes monedas", Toast.LENGTH_SHORT).show();
+                        else if (response.code() == 500) Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                        else
                         Toast.makeText(getContext(), "Tu compra se ha realizado con éxito", Toast.LENGTH_SHORT).show();
                     }
 
