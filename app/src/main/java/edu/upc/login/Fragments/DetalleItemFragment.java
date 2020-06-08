@@ -3,6 +3,7 @@ package edu.upc.login.Fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class DetalleItemFragment extends Fragment {
+    int cant=1;
     API api;
     TextView titulo, descripcion , precio, cantidad;
     ImageView imagenDetalle;
@@ -46,6 +48,7 @@ public class DetalleItemFragment extends Fragment {
         descripcion=view.findViewById(R.id.textdescricion);
         precio=view.findViewById(R.id.textprecio);
         imagenDetalle=view.findViewById(R.id.imagen_detalle);
+        cantidad= view.findViewById(R.id.cantidad);
         mas = view.findViewById(R.id.mas);
         menos = view.findViewById(R.id.menos);
         comprar = view.findViewById(R.id.comprar);
@@ -63,19 +66,23 @@ public class DetalleItemFragment extends Fragment {
         }
         int idObjeto = item.getIdObjeto();
 
-        /* menos.setOnClickListener(new View.OnClickListener() {
+        menos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (DetalleItemFragment.this.cant !=1){
+                    DetalleItemFragment.this.cant--;
+                    cantidad.setText(String.valueOf(cant));
+                }
+                else Toast.makeText(getContext(),"La compra mínima es 1", Toast.LENGTH_SHORT).show();
             }
         });
         mas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int cant = Integer.parseInt(cantidad.getText().toString());
-                cantidad.setText(String.valueOf(cant + 1 ));
+                DetalleItemFragment.this.cant++;
+                cantidad.setText(String.valueOf(cant));
             }
-        });*/
+        });
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -98,7 +105,7 @@ public class DetalleItemFragment extends Fragment {
             public void onClick(View v) {
                 //int c = cantidad.getText();
                 String idJugador = obtenerToken();
-                Inventario i = new Inventario(idObjeto, 1, idJugador);
+                Inventario i = new Inventario(idObjeto, DetalleItemFragment.this.cant, idJugador);
                 Call<Void> call = api.comprar(i);
                 call.enqueue(new Callback<Void>() {
                     @Override
